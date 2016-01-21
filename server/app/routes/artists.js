@@ -17,19 +17,19 @@ router.get('/:artistName', function(req, res, next) {
     .then(function(response) {
     	var artistAlbums = response.message.body.album_list
     	var aryOfPromises = [];
-    	artistAlbums.forEach(function(albumObj) {
-    		myProxyRequest('album.tracks.get?apikey=82ad06b5dc21a4080961bd63ed342de6&album_id=' + albumObj.album.album_id)
+    	return Promise.all(artistAlbums.map(function(albumObj) {
+    		return myProxyRequest('album.tracks.get?apikey=82ad06b5dc21a4080961bd63ed342de6&album_id=' + albumObj.album.album_id)
     		.then(response => {
     			var tracklist = response.message.body.track_list;
-    			aryOfPromises.push(tracklist);
-    			console.log(aryOfPromises, "AT MID")
-    		});
-    	});
-    	console.log(aryOfPromises, "AT END")
-    	return aryOfPromises;
+    			return tracklist;
+    		})
+    	}))
     })
-    .then(function(results){ 
-     	console.log(results, "RESULTSSSSSSSSSSSSSS")
+    .then(function(aryOfTrackLists){ 
+     	console.log(aryOfTrackLists[0], "RESULTSSSSSSSSSSSSSS")
+     	aryOfTrackLists.forEach(function(track) {
+     		console.log(track);
+     	})
     })
     .catch(function (err) {
         console.log("failed")
