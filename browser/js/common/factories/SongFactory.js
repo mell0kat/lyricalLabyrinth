@@ -1,32 +1,52 @@
+
 app.factory('SongFactory', function ($http) { 
 	var SongFactory = {};
 
-	// SongFactory.fetchSongs = function(artist) {
- //    console.log(artist)
- //    artist = artistConverter(artist);
+	var albumsList;
 
-	// 	return $http.get('http://api.musixmatch.com/ws/1.1/artist.search?apikey=82ad06b5dc21a4080961bd63ed342de6&q_artist=' + artist)
- //    .then(function(res) {
- //     return res.data.message.body.artist_list[0].artist.artist_id;
- //    })
- //    .then(function(artistId){
- //      return $http.get('http://api.musixmatch.com/ws/1.1/artist.albums.get?apikey=82ad06b5dc21a4080961bd63ed342de6&artist_id=' +artistId)
- //      .then(function(results){ 
- //        var albumsAry= results.data.message.body.album_list;
- //        var aryOfPromises = albumsAry.map(function(albumObj) {
- //          console.log(albumObj.album.album_id);
- //        })
- //      });
- //    });
+  SongFactory.fetchAllAlbums = function(artist){
+    return $http.get('/api/artists/' + artistConverter(artist))
+    .then(function(response) {
 
-	// }
+    	albumsList = response.data;
+    	return albumsList;
+    })
+    .then(function(albumsList) {
+    	return Promise.all(albumsList.map(function(album) {
+    		var albumId = album.album.album_id;
+    		return $http.get('/api/artists/albums/' + albumId)
+    	}))	
+    })
+    .then(function(arrayOfAlbumArrays) {
+    	return Promise.all(arrayOfAlbumArrays.map(function(album) {
+    		var album = album.data;
+    		
+    		return Promise.all(album.map(function(track){
+    			var trackId = track.track.track_id;
+    			return $http.get('/api/artists/tracks/' + trackId)
+    	}))
+    	
+    }))
+	})
+	.then(function(albums) {
+		
 
-  SongFactory.fetchSongs = function(artist){
-    $http.get('/api/artists/' + artistConverter(artist))
-  }
+		albums.forEach(function(album) {
+			album.forEach(function(track){
+				if (track.data!=='EMPTY?'){
+					return $http.post('/api/artists/tracks', { artist: artist, lyrics: track.data })
+					.then( song => {console.log(song)})
+				}
+			})
+
+		})
+		
+	})
+}
+  
 	return SongFactory;
 
-});
+})
 
 
 

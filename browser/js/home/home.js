@@ -3,12 +3,17 @@ app.config(function ($stateProvider) {
         url: '/',
         templateUrl: 'js/home/home.html',
         controller: function($scope, SongFactory) {
-        	$scope.submit = function() {
-        		SongFactory.fetchSongs($scope.artist)
-        		.then(lyrics => {
-        			$scope.lyrics = lyrics;
-        		})
+            console.log("in controller")
+        	$scope.submit = function(artist) {
+                
+        		 SongFactory.fetchAllAlbums(artist)
+                 .then(albums => {
+                    console.log("HEY")
+                    console.log(albums)
+                    $scope.albums = albums;
+                 })
+        			
+        		}
         	}
-        }
     });
 });

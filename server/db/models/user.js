@@ -3,6 +3,7 @@ var crypto = require('crypto');
 var mongoose = require('mongoose');
 var _ = require('lodash');
 
+console.log("in the user model")
 var schema = new mongoose.Schema({
     email: {
         type: String
