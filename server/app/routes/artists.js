@@ -5,7 +5,7 @@ var rp = require('request-promise');
 
 
 router.get('/:artistName', function(req, res, next) {
-
+	
 	myProxyRequest('artist.search?apikey=82ad06b5dc21a4080961bd63ed342de6&q_artist=' + req.params.artistName)
 
     .then(function (response) {
@@ -26,11 +26,38 @@ router.get('/:artistName', function(req, res, next) {
     	}))
     })
     .then(function(aryOfTrackLists){ 
-     	console.log(aryOfTrackLists[0], "RESULTSSSSSSSSSSSSSS")
-     	aryOfTrackLists.forEach(function(track) {
-     		console.log(track);
-     	})
-    })
+     	
+     	return aryOfTrackLists.map(function(tracklist) {
+     		var aryOfLyrics = [];
+     		return Promise.all(Object.keys(tracklist).map(function(track) {
+     			
+     			var trackId = tracklist[track].track.track_id;
+     			
+     			return myProxyRequest('track.lyrics.get?apikey=82ad06b5dc21a4080961bd63ed342de6&track_id=' + trackId)
+     		}))
+     		.then(function(ary) {
+     			lyrics = ary.filter(function(track) {
+     				console.log(track.message.body.lyrics.lyrics_body, "MARKER")
+     				return (track.message.body.lyrics.lyrics_body.length);
+     				
+     			});
+     			return lyrics;
+     			
+     		})
+     		.then(function(lyrics) {
+     			console.log("YIPE", lyrics)
+     		})
+     		
+     			
+     			// myProxyRequest('track.lyrics.get?apikey=82ad06b5dc21a4080961bd63ed342de6&track_id=15953433' + trackId)
+     			// .then(response => {
+
+     				// console.log(response.message.body)
+     			});
+     		})
+     		// track.forEach(function)
+     	
+    
     .catch(function (err) {
         console.log("failed")
     });
