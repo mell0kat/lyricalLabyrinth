@@ -4,6 +4,10 @@ app.factory('SongFactory', function ($http) {
 
 	var albumsList;
 
+    var searchCounter = 0;
+
+   
+
   SongFactory.fetchAllAlbums = function(artist){
     return $http.get('/api/artists/' + artistConverter(artist))
     .then(function(response) {
@@ -29,8 +33,6 @@ app.factory('SongFactory', function ($http) {
     }))
 	})
 	.then(function(albums) {
-		
-
 		albums.forEach(function(album) {
 			album.forEach(function(track){
 				if (track.data!=='EMPTY?'){
@@ -42,6 +44,19 @@ app.factory('SongFactory', function ($http) {
 		})
 		
 	})
+}
+
+SongFactory.search = function(word) {
+	console.log("in the search")
+    console.log(searchCounter, "SEARCH COUNTER")
+	return $http.get('/api/artists/searchby/' + word +'/' + (searchCounter))
+    .then(function(songObj) {
+        console.log(songObj);
+        if (typeof(songObj) === 'object'){
+            SongFactory.searchCounter++;
+        }
+        return songObj.data;
+    })
 }
   
 	return SongFactory;

@@ -53,6 +53,19 @@ router.get('/tracks/:trackId', function(req, res, next) {
     })
 })
 
+router.get('/searchby/:word/:iterations', function(req, res, next) {
+    console.log("in router")
+    Song.search(req.params.word, req.params.iterations)
+    .then(song=> {
+        res.send(song)
+    })
+   
+    // promise.then(function(foundWord) {
+    //     console.log("back in the route");
+    //     res.send(foundWord);
+    // })
+})
+
 router.post('/tracks', function(req, res, next) {
     Song.create(req.body)
     .then(song => {

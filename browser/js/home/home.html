@@ -1,10 +1,24 @@
 <section id="home">
     <fullstack-logo></fullstack-logo>
     <rando-greeting></rando-greeting>
-    <form >
-  			Enter artist and hit enter:
-	  <input type="text" ng-model="artist" name="artist" />
-	  <button ng-click = "submit(artist)"/>
+    <form class="container">
+    	<div class="row"> 
+    		<div class = "col-xs-4">
+  				<label>	Enter artist and hit enter:</label>
+	  			<input type="text" ng-model="artist" name="artist" />
+	  			<button ng-click = "submit(artist)"/>
+			</div>
+		</div>
+    <h2>{{customSong}}</h2>
+    	<div class="row"> 
+    		<div class = "col-xs-4">
+  				<label>	Enter a word and hit enter:</label>
+	  			<input type="text" ng-model="word" name="word" />
+	  			<button ng-click = "lookFor(word)"/>
+	  		</div>
+		</div>
+        <div class="row"> 
+        </div>
+        <button ng-click="searchAgain()">SEARHC AGAIN</button>
 	</form>
-    <h2>{{albums}}</h2>
 </section>
