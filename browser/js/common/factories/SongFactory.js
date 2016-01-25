@@ -31,7 +31,9 @@ app.factory('SongFactory', function ($http) {
     		
     		return Promise.all(album.map(function(track){
     			var trackId = track.track.track_id;
+
     			return $http.get('/api/artists/tracks/' + trackId)
+
     	}))
     	
     }))
@@ -39,8 +41,9 @@ app.factory('SongFactory', function ($http) {
 	.then(function(albums) {
 		albums.forEach(function(album) {
 			album.forEach(function(track){
+                console.log(track.data, "TRACK>DATA")
 				if (track.data!=='EMPTY?'){
-					return $http.post('/api/artists/tracks', { artist: artist, lyrics: track.data })
+					return $http.post('/api/artists/tracks', { artist: artist, lyrics: track.data.lyrics, title: track.data.title })
 					.then( song => {console.log(song)})
 				}
 			})
@@ -55,8 +58,11 @@ app.factory('SongFactory', function ($http) {
 SongFactory.readSong = function(lyrics) {
   var synth = window.speechSynthesis;
    var voices = synth.getVoices();
-   console.log(voices)
+   
   var utterThis = new SpeechSynthesisUtterance(lyrics);
+  console.log(voices, utterThis.pitch, "PITCH")
+  utterThis.pitch=1.5;
+  utterThis.rate=.8;
   synth.speak(utterThis);
 
     

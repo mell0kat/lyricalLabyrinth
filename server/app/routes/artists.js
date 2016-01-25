@@ -44,21 +44,38 @@ router.get('/:artistName', function(req, res, next) {
 router.get('/albums/:albumId', function(req, res, next) {
     myProxyRequest('album.tracks.get?apikey=82ad06b5dc21a4080961bd63ed342de6&album_id=' + req.params.albumId)
     .then(response => {
+         
          var aryOfTracklists = response.message.body.track_list;
          res.send(aryOfTracklists);
      })
 })
 
 router.get('/tracks/:trackId', function(req, res, next) {
+    var lyrics;
+    var title;
+    var toSend = {};
     myProxyRequest('track.lyrics.get?apikey=82ad06b5dc21a4080961bd63ed342de6&track_id=' + req.params.trackId)
     .then(response => {
-        var lyrics = response.message.body;
+        lyrics = response.message.body;
+        console.log("getting a title");
         if (lyrics.lyrics && lyrics.lyrics.lyrics_body) {
-            res.send(lyrics.lyrics.lyrics_body)
+            toSend.lyrics = lyrics.lyrics.lyrics_body;
+            myProxyRequest('track.get?apikey=82ad06b5dc21a4080961bd63ed342de6&track_id='+req.params.trackId)
+             .then(response=> {
+                console.log(response, "RES MES BODY")
+                if (response.message.body.track && response.message.body.track.track_name) {
+                    toSend.title = response.message.body.track.track_name
+                    res.send(toSend);
+                }else {
+                    toSend.title='Untitled'
+                    res.send(toSend)
+                }
+            })   
         }else{
             res.send('EMPTY?');
         }
     })
+
 })
 
 router.get('/searchby/:word/:iterations', function(req, res, next) {
@@ -73,6 +90,8 @@ router.get('/searchby/:word/:iterations', function(req, res, next) {
     //     res.send(foundWord);
     // })
 })
+
+
 
 router.post('/tracks', function(req, res, next) {
     Song.create(req.body)

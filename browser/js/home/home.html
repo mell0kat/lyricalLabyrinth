@@ -4,15 +4,22 @@
             <div class='col-xs-12'><h4>Welcome to the</h4></div> 
             <div class='col-xs-12'><h1>Lyrical Labyrinth</h1></div> 
 
-            <div class='col-xs-12' ng-style="{'font-family':'Indie Flower', 'font-size':'24px', 'color':'#47014a'}">
-                {{customSong}}</div> 
+            
+                
+                
 
-            <div class='col-xs-12' ng-style="{'font-family':'Muli', 'font-size':'24px', 'color':'#47014a'}"> A song called: 
+            <div class='col-xs-12' ng-show="songBuilt" class ="songInfo" ng-style="{'font-family':'Muli', 'font-size':'16px', 'color':'black'}"><strong> A song called: </strong>
             {{customTitle}}</div> 
-            <div class='col-xs-12' ng-style="{'font-family':'Muli', 'font-size':'24px', 'color':'#47014a'}">By: 
+        
+            <div class='col-xs-12' class ="songInfo" ng-show="songBuilt" ng-style="{'font-family':'Muli', 'font-size':'16px', 'color':'black'}"><strong>By: </strong>
             {{customArtist}}</div> 
+            <hr>
             <div class='col-xs-12' ng-style="{'font-family':'Indie Flower', 'font-size':'24px', 'color':'#47014a'}">
             </div> 
+            <br>
+            <div class='col-xs-12' ng-style="{'font-family':'Indie Flower', 'font-size':'24px', 'color':'#47014a'}">
+                {{customSong}}</div> 
+            <hr ng-show="songBuilt">
         </div>
         
         

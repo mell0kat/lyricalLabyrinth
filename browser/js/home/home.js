@@ -16,7 +16,9 @@ app.config(function ($stateProvider) {
                     console.log(albums, "IN SCOPE FETCH")
                     $scope.albums = albums;
                     $scope.artistFound = true;
+
                    $scope.artist = null;
+
                     
                  })
                  .then(null, function(err) {
@@ -27,13 +29,14 @@ app.config(function ($stateProvider) {
         			
         		}
             $scope.lookFor = function(word) {
-                console.log("back in home.js")
+                $scope.songBuilt = true;
                 SongFactory.search(word)
                 .then(function(response){
                     if (response!=='Whoops! Not found!'){
                         $scope.lastWord = response.chunk[response.chunk.length-1]
-                        
+                        $scope.customTitle += response.title.split(" ")[0] + ' ';
                         $scope.customSong += '\n' + response.chunk.join(" ") +  ' ';  
+                        $scope.customArtist += response.artist + ' & '
                     }else {
                         $scope.wordNotFound = true;
                     }
@@ -45,7 +48,9 @@ app.config(function ($stateProvider) {
                 .then(function(response){
                     if (response!=='Whoops! Not found!'){
                         $scope.lastWord = response.chunk[response.chunk.length-1]
-                        $scope.customSong += response.chunk.slice(1).join(" ") +  '\n';       
+                        $scope.customSong += response.chunk.slice(1).join(" ") +  '\n';   
+                        $scope.customArtist += response.artist + ' & ';
+                        $scope.customTitle += response.title.split(" ")[0] + ' ';  
                     }
                 })
             }

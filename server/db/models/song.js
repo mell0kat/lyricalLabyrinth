@@ -10,6 +10,9 @@ var songSchema = new mongoose.Schema({
 	lyrics:{
 		type: String,
 		required:true
+	},
+	title: {
+		type:String
 	}
 });
 
@@ -54,6 +57,7 @@ songSchema.statics.search = function(word, iterations) {
 
 				objToReturn.chunk = toSearchThrough.slice(start, end);
 				objToReturn.artist = randomOrder[i].artist;
+				objToReturn.title = randomOrder[i].title;
 				console.log(objToReturn, "OBJ")
 				
 				
