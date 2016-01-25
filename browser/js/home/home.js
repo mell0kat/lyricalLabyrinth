@@ -6,12 +6,23 @@ app.config(function ($stateProvider) {
             console.log("in controller")
             $scope.customSong = '';
             $scope.lastWord ='';
+            $scope.customArtist='';
+            $scope.customTitle='';
+
         	$scope.submit = function(artist) {
                 
         		 SongFactory.fetchAllAlbums(artist)
                  .then(albums => {
-
+                    console.log(albums, "IN SCOPE FETCH")
                     $scope.albums = albums;
+                    $scope.artistFound = true;
+                   $scope.artist = null;
+                    
+                 })
+                 .then(null, function(err) {
+                    $scope.artistNotFound = true;
+                    $scope.artist = null;
+                    
                  })
         			
         		}
@@ -21,8 +32,10 @@ app.config(function ($stateProvider) {
                 .then(function(response){
                     if (response!=='Whoops! Not found!'){
                         $scope.lastWord = response.chunk[response.chunk.length-1]
-                        $scope.customSong += response.chunk.join(" ");
-                      
+                        
+                        $scope.customSong += '\n' + response.chunk.join(" ") +  ' ';  
+                    }else {
+                        $scope.wordNotFound = true;
                     }
                 })
                 .then(() => {console.log("in the next .then")})
@@ -32,11 +45,13 @@ app.config(function ($stateProvider) {
                 .then(function(response){
                     if (response!=='Whoops! Not found!'){
                         $scope.lastWord = response.chunk[response.chunk.length-1]
-                      $scope.customSong += response.chunk.join(" ");
-                       
+                        $scope.customSong += response.chunk.slice(1).join(" ") +  '\n';       
                     }
                 })
             }
-        	}
-    });
+            $scope.singIt = function(){
+                SongFactory.readSong($scope.customSong)
+            }   	
+    }
+});
 });

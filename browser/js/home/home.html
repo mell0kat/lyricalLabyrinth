@@ -1,24 +1,49 @@
-<section id="home">
-    <fullstack-logo></fullstack-logo>
-    <rando-greeting></rando-greeting>
-    <form class="container">
-    	<div class="row"> 
-    		<div class = "col-xs-4">
-  				<label>	Enter artist and hit enter:</label>
-	  			<input type="text" ng-model="artist" name="artist" />
-	  			<button ng-click = "submit(artist)"/>
-			</div>
-		</div>
-    <h2>{{customSong}}</h2>
-    	<div class="row"> 
-    		<div class = "col-xs-4">
-  				<label>	Enter a word and hit enter:</label>
-	  			<input type="text" ng-model="word" name="word" />
-	  			<button ng-click = "lookFor(word)"/>
-	  		</div>
-		</div>
-        <div class="row"> 
+<section id="home" >
+    <div id="contents" class="container">
+        <div class="row">
+            <div class='col-xs-12'><h4>Welcome to the</h4></div> 
+            <div class='col-xs-12'><h1>Lyrical Labyrinth</h1></div> 
+
+            <div class='col-xs-12' ng-style="{'font-family':'Indie Flower', 'font-size':'24px', 'color':'#47014a'}">
+                {{customSong}}</div> 
+
+            <div class='col-xs-12' ng-style="{'font-family':'Muli', 'font-size':'24px', 'color':'#47014a'}"> A song called: 
+            {{customTitle}}</div> 
+            <div class='col-xs-12' ng-style="{'font-family':'Muli', 'font-size':'24px', 'color':'#47014a'}">By: 
+            {{customArtist}}</div> 
+            <div class='col-xs-12' ng-style="{'font-family':'Indie Flower', 'font-size':'24px', 'color':'#47014a'}">
+            </div> 
         </div>
-        <button ng-click="searchAgain()">SEARHC AGAIN</button>
-	</form>
+        
+        
+        <div class="row">
+            <div class = "col-xs-6">
+            <h4>I want to make a song with</h4>
+                <form name="createSongForm" class="createSongForm"> 
+        			<label>Enter an artist here:</label>
+          			<input type="text" ng-model="artist" name="artist"/>
+                    
+                    <input class="button" type="submit" ng-click="submit(artist)" value="Submit" />
+                    <div ng-show="artistNotFound" ng-style="{'color':'white'}">Artist not found in database.  Please try another!</div>
+                    <div ng-show="artistFound" ng-style="{'color':'white'}">Artist added!</div>  
+                </form>
+            </div>
+    	
+    		<div class = "col-xs-6">
+                <h4>and it will be about</h4>
+                <form class="createSongForm">
+                    <label>Enter a word here:</label>
+          			<input type="text" ng-model="word" name="word" />
+                    <input class="button" type="submit" ng-click="lookFor(word)" value="Save" />
+                    <div ng-show="wordNotFound" ng-style="{'color':'white'}">That word was not found in the lyrics database.  Please try another!</div>
+          	 </form>
+            </div>
+        </div>
+            <div class= "row" id= "bottomButtons">
+                <button ng-click="searchAgain()">Add another line</button>
+                <button ng-click="singIt()">Sing it to me, baby!</button>   
+            </div>
+               
+        </div>
+    </div>
 </section>

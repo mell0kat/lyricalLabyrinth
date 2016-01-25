@@ -11,7 +11,11 @@ app.factory('SongFactory', function ($http) {
   SongFactory.fetchAllAlbums = function(artist){
     return $http.get('/api/artists/' + artistConverter(artist))
     .then(function(response) {
-
+        console.log(response,"response in song factory")
+        if (typeof response.data === 'string') {
+            console.log("in the if")
+            throw new Error(response.data);
+        }
     	albumsList = response.data;
     	return albumsList;
     })
@@ -44,16 +48,28 @@ app.factory('SongFactory', function ($http) {
 		})
 		
 	})
+    .catch(null, function(err) {
+        return err;
+    })
 }
+SongFactory.readSong = function(lyrics) {
+  var synth = window.speechSynthesis;
+   var voices = synth.getVoices();
+   console.log(voices)
+  var utterThis = new SpeechSynthesisUtterance(lyrics);
+  synth.speak(utterThis);
 
+    
+}
 SongFactory.search = function(word) {
+    console.log(word, "THIS IS THE WORD")
 	console.log("in the search")
     console.log(searchCounter, "SEARCH COUNTER")
 	return $http.get('/api/artists/searchby/' + word +'/' + (searchCounter))
     .then(function(songObj) {
         console.log(songObj);
         if (typeof(songObj) === 'object'){
-            SongFactory.searchCounter++;
+            searchCounter++;
         }
         return songObj.data;
     })
@@ -72,4 +88,21 @@ function artistConverter(artistName) {
   return artistName;
 }
 
-// Beyonce artist id: 18927
+function wordWithoutPunctuation(word) {
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

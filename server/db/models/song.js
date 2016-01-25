@@ -17,7 +17,7 @@ var songSchema = new mongoose.Schema({
 songSchema
 .virtual('transformedLyrics')
 .get(function () {
-  var newLyrics = this.lyrics.replace(/[^\w\s]/g, "");
+  var newLyrics = this.lyrics.replace(/[^\w\s']/g, "");
   newLyrics = newLyrics.split("\n").join(" ")  
   newLyrics = newLyrics.toLowerCase();
   
@@ -31,18 +31,18 @@ songSchema.statics.search = function(word, iterations) {
 	console.log("in the static searching for", word)
 	return this.find({})
 	.then(function(songs) {
-		console.log(songs)
+		
 		var randomOrder = shuffle(songs);
 		
 		for (var i = 0; i < randomOrder.length; i++) {
 			
 			var toSearchThrough = randomOrder[i].transformedLyrics;
-			
+			console.log(toSearchThrough, "TO SEARCH THRU")
 			var indexOfWord = toSearchThrough.indexOf(word);
 			var objToReturn = {};
 			if (indexOfWord !== -1) {
 				console.log("FOUND ONE BITCHES")
-				console.log(toSearchThrough, "TO seach through")
+				
 				console.log(iterations, indexOfWord,"criteria")
 				if (indexOfWord > 6 && iterations===0) {
 					var start = indexOfWord-7;
@@ -56,11 +56,11 @@ songSchema.statics.search = function(word, iterations) {
 				objToReturn.artist = randomOrder[i].artist;
 				console.log(objToReturn, "OBJ")
 				
-				console.log("after return")
+				
 				return objToReturn;
 			};
 			
-			console.log("after return 2")
+			
 		};
 		return "Whoops! Not found!"
 	})

@@ -1,16 +1,64 @@
+@import url(https://fonts.googleapis.com/css?family=Cedarville+Cursive|Muli:400,300italic);
+@import url(https://fonts.googleapis.com/css?family=Cedarville+Cursive|Muli:400,300italic|Indie+Flower|Dancing+Script);
 #home {
-  fullstack-logo {
-    padding-top: 30px;
-    width: 150px;
+  border: 10px solid #47014a;
+  #contents {
+    
+    display:block;
     margin: 0 auto;
   }
-  h1 {
-    margin-top: 40px;
+  label {
+    font-size: 12px;
+  }
+  h4 {
+    font-family: 'Muli', sans-serif;
     text-align: center;
   }
-  button {
-  	width: 50px;
-  	background-color: lightblue;
+  h1 {
+   
+    font-family: 'Dancing Script', cursive;
+    font-size: 48px;
+    text-shadow: 2px 2px #574B58;
+    color:#580F5A;
+    display:block;
+    margin: 30px auto;
+    text-align: center;
+    
+
+  }
+  .button {
+  	
+  	background-color: #47014a;
+    color:white;
+    border: 2px solid white;
+    border-radius:10px;
+    
+  }
+  .createSongForm {
+    background-color: #8b598d;
+    width:100%;
+    margin: auto;
+    padding: 20px 5px 20px 5px;
+
+  }
+  #bottomButtons {
+    margin: 50px auto;
+    margin-left:30%;
+    display:inline-block;
+    
+    button {
+      background-color: #47014a;
+      color:white;
+      border: 5px solid #8b598d;
+      border-radius: 10px;
+      padding: 10px;
+    }
+
+  }
+  .myCustomSong {
+    font-family: 'Indie Flower', cursive;
   }
 }
+
+
 
