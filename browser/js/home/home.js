@@ -3,7 +3,7 @@ app.config(function ($stateProvider) {
         url: '/',
         templateUrl: 'js/home/home.html',
         controller: function($scope, SongFactory) {
-            console.log("in controller")
+            
             $scope.customSong = '';
             $scope.lastWord ='';
             $scope.customArtist='';
@@ -13,7 +13,7 @@ app.config(function ($stateProvider) {
                 
         		 SongFactory.fetchAllAlbums(artist)
                  .then(albums => {
-                    console.log(albums, "IN SCOPE FETCH")
+                   
                     $scope.albums = albums;
                     $scope.artistFound = true;
 

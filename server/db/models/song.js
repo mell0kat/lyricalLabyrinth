@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 
-console.log("in the song model");
 
 var songSchema = new mongoose.Schema({
 	artist: {
@@ -31,7 +30,7 @@ songSchema
 
 songSchema.statics.search = function(word, iterations) {
 
-	console.log("in the static searching for", word)
+	
 	return this.find({})
 	.then(function(songs) {
 		
@@ -40,13 +39,13 @@ songSchema.statics.search = function(word, iterations) {
 		for (var i = 0; i < randomOrder.length; i++) {
 			
 			var toSearchThrough = randomOrder[i].transformedLyrics;
-			console.log(toSearchThrough, "TO SEARCH THRU")
+			
 			var indexOfWord = toSearchThrough.indexOf(word);
 			var objToReturn = {};
 			if (indexOfWord !== -1) {
-				console.log("FOUND ONE BITCHES")
 				
-				console.log(iterations, indexOfWord,"criteria")
+				
+				
 				if (indexOfWord > 6 && iterations===0) {
 					var start = indexOfWord-7;
 					var end = indexOfWord+7;
@@ -58,7 +57,7 @@ songSchema.statics.search = function(word, iterations) {
 				objToReturn.chunk = toSearchThrough.slice(start, end);
 				objToReturn.artist = randomOrder[i].artist;
 				objToReturn.title = randomOrder[i].title;
-				console.log(objToReturn, "OBJ")
+				
 				
 				
 				return objToReturn;
@@ -69,7 +68,7 @@ songSchema.statics.search = function(word, iterations) {
 		return "Whoops! Not found!"
 	})
 	.then(returnThis => { 
-		console.log(returnThis)
+		
 		return returnThis
 	})
 }

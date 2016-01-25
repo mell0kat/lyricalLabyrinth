@@ -11,9 +11,9 @@ app.factory('SongFactory', function ($http) {
   SongFactory.fetchAllAlbums = function(artist){
     return $http.get('/api/artists/' + artistConverter(artist))
     .then(function(response) {
-        console.log(response,"response in song factory")
+        
         if (typeof response.data === 'string') {
-            console.log("in the if")
+            
             throw new Error(response.data);
         }
     	albumsList = response.data;
@@ -41,7 +41,7 @@ app.factory('SongFactory', function ($http) {
 	.then(function(albums) {
 		albums.forEach(function(album) {
 			album.forEach(function(track){
-                console.log(track.data, "TRACK>DATA")
+                
 				if (track.data!=='EMPTY?'){
 					return $http.post('/api/artists/tracks', { artist: artist, lyrics: track.data.lyrics, title: track.data.title })
 					.then( song => {console.log(song)})
@@ -60,7 +60,7 @@ SongFactory.readSong = function(lyrics) {
    var voices = synth.getVoices();
    
   var utterThis = new SpeechSynthesisUtterance(lyrics);
-  console.log(voices, utterThis.pitch, "PITCH")
+  
   utterThis.pitch=1.5;
   utterThis.rate=.8;
   synth.speak(utterThis);
