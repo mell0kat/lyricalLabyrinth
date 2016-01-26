@@ -20,6 +20,7 @@ songSchema
 .virtual('transformedLyrics')
 .get(function () {
   var newLyrics = this.lyrics.replace(/[^\w\s']/g, "");
+  newLyrics = newLyrics.replace('This Lyrics is NOT for Commercial use', '')
   newLyrics = newLyrics.split("\n").join(" ")  
   newLyrics = newLyrics.toLowerCase();
   

@@ -90,8 +90,10 @@ router.get('/searchby/:word/:iterations', function(req, res, next) {
 
 
 router.post('/tracks', function(req, res, next) {
+
     Song.create(req.body)
     .then(song => {
+        console.log("created song", song)
         res.send(song);
     })
 
